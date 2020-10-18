@@ -1,0 +1,7 @@
+apiVersion: v1
+version: 0.0.1
+appVersion: 0.1
+name: ms_name
+description: ATLAS Microservices
+maintainers:
+  - name: Jamal Shahverdiyev

@@ -1,0 +1,18 @@
+{{- if .Values.metallb.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+{{- with .Values.metallb }}
+  namespace: {{ .ns_name }}
+  name: {{ .name }}
+data:
+  config: |
+    address-pools:
+    - name: {{ .pool_name }}
+{{- end }}
+      protocol: layer2
+      addresses:
+      {{- with .Values.metallb.address_pool }}
+      - {{ printf "%s-%s" .start .end }}
+      {{- end }}
+{{- end }}

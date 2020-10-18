@@ -1,0 +1,15 @@
+apiVersion: v1
+entries:
+  ms_name:
+  - apiVersion: v1
+    appVersion: "0.1"
+    created: "2020-04-19T14:43:01.692797923+04:00"
+    description: ATLAS Microservices
+    digest: 9f334a40ff9c4f857348cd5f45b8181b764001d8021841db1ddd3e6fce7f301d
+    maintainers:
+    - name: Jamal Shahverdiyev
+    name: ms_name
+    urls:
+    - ms_name-0.0.1.tgz
+    version: 0.0.1
+generated: "2020-04-19T14:43:01.690757743+04:00"

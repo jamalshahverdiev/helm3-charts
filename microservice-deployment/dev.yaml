@@ -1,0 +1,100 @@
+replicaCount: 1
+
+ms_names: 
+  name: ms-auth
+
+ns_name: atlas
+
+# App Rolling Update
+strategy:
+  enabled: false
+  type: RollingUpdate
+  rollingUpdate: #Update Pods a certain number at a time
+    maxUnavailable: 0 #Total number of pods that can be unavailable at once
+    maxSurge: 1 #Maximum number of pods that can be deployed above desired state
+minReadySeconds: 5
+revisionHistoryLimit: 1
+
+hpa:
+  enabled: true
+  minReplicas: "1"
+  maxReplicas: "1"
+  cpuUtilization: "90"
+  memoryUtilization: "500Mi"
+
+ingress:
+  enabled: false
+  hostname: dev.optimus.kapitalbank.az
+  name: kbworkplace
+  routes: 
+    - route: /
+      name: kb-workplace
+      port: 8080
+    - route: /api
+      name: gw-branch
+      port: 80
+  lbip: 10.0.82.100
+
+secrets:
+  enabled: true
+  apis:
+    - name: HOST
+      fieldPath: status.hostIP
+    - name: POD_NAME
+      fieldPath: metadata.name
+    - name: POD_NAMESPACE
+      fieldPath: metadata.namespace
+  vaults:
+    - name: VAULT_ROLE_ID
+      valueFrom:
+        name: secret-vault
+        key: VAULT_ROLE_ID
+    - name: VAULT_SECRET_ID
+      valueFrom:
+        name: secret-vault
+        key: VAULT_SECRET_ID
+  atlas: optimus-tls
+  vault_secret_name: secret-vault
+
+nessprobe:
+  initialDelay: 30
+  period: 30
+  timeout: 2
+  failure: 3
+  success: 1
+
+
+service:
+  src_port: 80
+  dst_port: 8080
+  account_name: atlas-sa 
+  actuator_path: actuator/health
+
+deploy_env: dev
+
+resource:
+  limits:
+    memory: 700Mi
+    cpu: 500m
+  requests: 
+    memory: 600Mi
+    cpu: 300m
+
+image:
+  repo_url: nexus.kblab.local:8083/v1/repositories
+  repo_name: kblab
+  image_vers: latest
+
+metallb:
+  enabled: false
+  address_pool: 
+    start: 10.0.82.100
+    end: 10.0.82.120
+  ns_name: metallb-system
+  name: metallbconfig
+  pool_name: devmetallbpool
+
+vault:
+  role_id: elmehetdi
+  secret_id: kadime
+

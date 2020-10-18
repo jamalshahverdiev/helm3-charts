@@ -1,0 +1,17 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    app: {{ include "microservice.name" . | default .Chart.Name }}
+  name: {{ include "microservice.name" . }}
+  namespace: {{ .Values.ns_name }}
+spec:
+  selector:
+    app: {{ include "microservice.name" . | default .Chart.Name }}
+  ports:
+      {{- with .Values.service }}
+    - protocol: TCP
+      port: {{ .src_port }}
+      targetPort: {{ .dst_port }}
+      {{- end }}

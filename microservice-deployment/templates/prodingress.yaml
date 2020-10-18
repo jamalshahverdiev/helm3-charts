@@ -1,0 +1,28 @@
+{{- if .Values.ingress.enabled }}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  name: {{ .Values.ingress.name }}
+  namespace: {{ .Values.ns_name }}
+spec:
+  rules:
+  - host: {{ .Values.ingress.hostname }}
+    http:
+      paths:
+{{- range .Values.ingress.routes }}
+      - backend:
+          serviceName: {{ .name }}
+          servicePort: {{ .port }}
+        path: {{ .route }}
+{{- end }}
+  tls:
+  - hosts:
+    - {{ .Values.ingress.hostname }}
+    secretName: {{ .Values.secrets.atlas }}
+status:
+  loadBalancer:
+    ingress:
+    - ip: {{ .Values.ingress.lbip }}
+{{- end }}
