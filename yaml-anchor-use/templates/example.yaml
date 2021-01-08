@@ -1,0 +1,3 @@
+Greeting: {{ .Values.hello.greeting }}
+VaultRoleId: {{ .Values.vault.roleid }}
+VaultSecretId: {{ .Values.vault.secretid }}

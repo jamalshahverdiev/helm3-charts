@@ -1,0 +1,14 @@
+---
+mydefaults: &mydefaults
+  greeting: "Hello"
+
+vaultdefaults: &vaultdefaults
+  roleid: "678903ojksdfgdfyusd"
+  secretid: "df7sd09fsdifis09df9sdf7sd"
+
+vault:
+  <<: *vaultdefaults
+
+hello:
+  <<: *mydefaults
+...
