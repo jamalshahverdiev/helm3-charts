@@ -1,9 +1,9 @@
 replicaCount: 1
 
 ms_names: 
-  name: ms-auth
+  name: ms-name
 
-ns_name: atlas
+ns_name: project_name
 
 
 strategy:
@@ -25,14 +25,14 @@ hpa:
 
 ingress:
   enabled: false
-  hostname: pre.optimus.kapitalbank.az
-  name: kbworkplace
+  hostname: domain.name.of.preprod.environment
+  name: ingress_name_of_preprod
   routes: 
     - route: /
-      name: kb-workplace
+      name: ms-svc-name
       port: 8080
     - route: /api
-      name: gw-branch
+      name: api-gateway-svc
       port: 80
   lbip: 10.0.81.33
 
@@ -54,7 +54,7 @@ secrets:
       valueFrom:
         name: secret-vault
         key: VAULT_SECRET_ID
-  atlas: optimus-tls
+  atlas: project-secret-tls
   vault_secret_name: secret-vault
 
 nessprobe:
@@ -68,7 +68,7 @@ nessprobe:
 service:
   src_port: 80
   dst_port: 8080
-  account_name: atlas-sa 
+  account_name: project-sa 
   actuator_path: actuator/health
 
 deploy_env: dev
@@ -82,8 +82,8 @@ resource:
     cpu: 500m
 
 image:
-  repo_url: nexus.kblab.local:8083/v1/repositories
-  repo_name: kblab
+  repo_url: domain.name.of.docker.registry.server
+  repo_name: docker_repo_name
   image_vers: latest
 
 metallb:
@@ -96,6 +96,6 @@ metallb:
   pool_name: preprodmetallbpool
 
 vault:
-  role_id: elmehetdi
-  secret_id: kadime
+  role_id: role_id_of_hashicorp_vault
+  secret_id: secret_id_of_hashicorp_vault
 

@@ -1,9 +1,9 @@
 replicaCount: 1
 
 ms_names: 
-  name: ms-auth
+  name: ms-name
 
-ns_name: atlas
+ns_name: project
 
 # App Rolling Update
 strategy:
@@ -24,14 +24,14 @@ hpa:
 
 ingress:
   enabled: false
-  hostname: dev.optimus.kapitalbank.az
-  name: kbworkplace
+  hostname: domain.name.of.dev.environment
+  name: ingress_name
   routes: 
     - route: /
-      name: kb-workplace
+      name: ms-svc-name
       port: 8080
     - route: /api
-      name: gw-branch
+      name: api-gateway-svc
       port: 80
   lbip: 10.0.82.100
 
@@ -81,8 +81,8 @@ resource:
     cpu: 300m
 
 image:
-  repo_url: nexus.kblab.local:8083/v1/repositories
-  repo_name: kblab
+  repo_url: domain.name.of.docker.registry.server
+  repo_name: docker_repo_name
   image_vers: latest
 
 metallb:
@@ -95,6 +95,6 @@ metallb:
   pool_name: devmetallbpool
 
 vault:
-  role_id: elmehetdi
-  secret_id: kadime
+  role_id: role_id_of_hashicorp_vault
+  secret_id: secret_id_of_hashicorp_vault
 
